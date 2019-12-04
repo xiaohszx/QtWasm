@@ -53,6 +53,7 @@
 PieChart::PieChart(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
+    setRenderTarget(RenderTarget::FramebufferObject);
 }
 
 QString PieChart::name() const
