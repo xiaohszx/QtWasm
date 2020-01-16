@@ -47,21 +47,48 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-//![0]
-#include "piechart.h"
-#include <QtQuick/QQuickView>
-#include <QGuiApplication>
+#ifndef PIECHART_H
+#define PIECHART_H
 
-int main(int argc, char *argv[])
+#include <QColor>
+#include <QtQuick/QQuickPaintedItem>
+
+//![0]
+class PieChart : public QQuickPaintedItem
 {
-    QGuiApplication app(argc, argv);
-
-    qmlRegisterType<PieChart>("Charts", 1, 0, "PieChart");
-
-    QQuickView view;
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.setSource(QUrl("qrc:///app.qml"));
-    view.show();
-    return app.exec();
-}
 //![0]
+    Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE setName)
+
+//![1]
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+public:
+//![1]
+
+    PieChart(QQuickItem *parent = 0);
+
+    QString name() const;
+    void setName(const QString &name);
+
+    QColor color() const;
+    void setColor(const QColor &color);
+
+    void paint(QPainter *painter);
+
+    Q_INVOKABLE void clearChart();
+
+//![2]
+signals:
+    void colorChanged();
+//![2]
+
+private:
+    QString m_name;
+    QColor m_color;
+
+//![3]
+};
+//![3]
+
+#endif
+

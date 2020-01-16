@@ -3,7 +3,7 @@
 ** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the documentation of the Qt Toolkit.
+** This file is part of the examples of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:BSD$
 ** Commercial License Usage
@@ -48,20 +48,37 @@
 **
 ****************************************************************************/
 //![0]
-#include "piechart.h"
-#include <QtQuick/QQuickView>
-#include <QGuiApplication>
+import Charts 1.0
+import QtQuick 2.0
 
-int main(int argc, char *argv[])
-{
-    QGuiApplication app(argc, argv);
+Item {
+    width: 300; height: 200
 
-    qmlRegisterType<PieChart>("Charts", 1, 0, "PieChart");
+    Row {
+        anchors.centerIn: parent
+        spacing: 20
 
-    QQuickView view;
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.setSource(QUrl("qrc:///app.qml"));
-    view.show();
-    return app.exec();
+        PieChart {
+            id: chartA
+            width: 100; height: 100
+            color: "red"
+        }
+
+        PieChart {
+            id: chartB
+            width: 100; height: 100
+            color: chartA.color
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: { chartA.color = "blue" }
+    }
+
+    Text {
+        anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter; bottomMargin: 20 }
+        text: "Click anywhere to change the chart color"
+    }
 }
 //![0]

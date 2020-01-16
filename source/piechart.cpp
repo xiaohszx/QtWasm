@@ -47,21 +47,50 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-//![0]
 #include "piechart.h"
-#include <QtQuick/QQuickView>
-#include <QGuiApplication>
+#include <QPainter>
 
-int main(int argc, char *argv[])
+PieChart::PieChart(QQuickItem *parent)
+    : QQuickPaintedItem(parent)
 {
-    QGuiApplication app(argc, argv);
+}
 
-    qmlRegisterType<PieChart>("Charts", 1, 0, "PieChart");
+QString PieChart::name() const
+{
+    return m_name;
+}
 
-    QQuickView view;
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.setSource(QUrl("qrc:///app.qml"));
-    view.show();
-    return app.exec();
+void PieChart::setName(const QString &name)
+{
+    m_name = name;
+}
+
+QColor PieChart::color() const
+{
+    return m_color;
+}
+
+//![0]
+void PieChart::setColor(const QColor &color)
+{
+    if (color != m_color) {
+        m_color = color;
+        update();   // repaint with the new color
+        emit colorChanged();
+    }
 }
 //![0]
+
+void PieChart::paint(QPainter *painter)
+{
+    QPen pen(m_color, 2);
+    painter->setPen(pen);
+    painter->setRenderHints(QPainter::Antialiasing, true);
+    painter->drawPie(boundingRect().adjusted(1, 1, -1, -1), 90 * 16, 290 * 16);
+}
+
+void PieChart::clearChart()
+{
+    setColor(QColor(Qt::transparent));
+    update();
+}
