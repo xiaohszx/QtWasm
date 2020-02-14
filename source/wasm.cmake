@@ -29,7 +29,7 @@ add_link_options("SHELL:-s EXIT_RUNTIME=1")
 
 # Allows amount of memory used to change 
 # https://emscripten.org/docs/optimizing/Optimizing-Code.html#memory-growth
-add_link_options("SHELL:-s ALLOW_MEMORY_GROWTH=1")
+#add_link_options("SHELL:-s ALLOW_MEMORY_GROWTH=1")
 #add_link_options("SHELL:-s MAXIMUM_MEMORY=1GB") # required when combining USE_PTHREADS with ALLOW_MEMORY_GROWTH
 
 # Enable C++ exception catching
@@ -44,6 +44,13 @@ add_link_options("SHELL:-s EXTRA_EXPORTED_RUNTIME_METHODS=[UTF16ToString,stringT
 # Enable Fetch API
 # https://emscripten.org/docs/api_reference/fetch.html
 add_link_options("SHELL:-s FETCH=1")
+
+# Enable threading
+# https://emscripten.org/docs/porting/pthreads.html
+add_compile_options(-pthread)
+add_link_options("SHELL:-s USE_PTHREADS=1")
+add_link_options("SHELL:-s PTHREAD_POOL_SIZE=4")
+add_link_options("SHELL:-s TOTAL_MEMORY=1GB")
 
 # Generate HTML file for each executable
 #SET(CMAKE_EXECUTABLE_SUFFIX ".html")
