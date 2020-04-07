@@ -49,11 +49,33 @@
 ****************************************************************************/
 #include "piechart.h"
 #include <QPainter>
+#include <QOpenGLContext>
+#include <QOffscreenSurface>
+
 
 PieChart::PieChart(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
-    setRenderTarget(RenderTarget::FramebufferObject);
+    //setRenderTarget(RenderTarget::FramebufferObject);
+	//setSurfaceType(QSurface::OpenGLSurface);
+	
+	qWarning() << "OpenGLModuleType: " << QOpenGLContext::openGLModuleType() << "\n";
+	qWarning() << "OpenGL thread support: " << QOpenGLContext::supportsThreadedOpenGL() << "\n";
+
+	QOpenGLContext    m_cur_ctx;     ///< offscreen context
+	m_cur_ctx.create();
+	assert(m_cur_ctx.isValid() && "QtGpvfWrapper::m_cur_ctx is not valid");
+
+	auto format = m_cur_ctx.format();
+	qWarning() << "FORMAT: version=" << format.majorVersion() << "," << format.minorVersion() << ", profile=" << format.profile() << "\n";
+    qWarning() << "OpenGLModuleType: " << QOpenGLContext::openGLModuleType() << "\n";
+	qWarning() << "OpenGL thread support: " << QOpenGLContext::supportsThreadedOpenGL() << "\n";
+
+	QOffscreenSurface m_cur_surface; ///< associated surface
+	m_cur_surface.setFormat(format);
+	//m_cur_surface.setScreen(m_cur_ctx.screen());
+	m_cur_surface.create();
+	assert(m_cur_surface.isValid() && "QtGpvfWrapper::m_cur_surface is not valid");	
 }
 
 QString PieChart::name() const
