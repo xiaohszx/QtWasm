@@ -105,6 +105,7 @@ WindowSingleThreaded::WindowSingleThreaded()
     m_context = new QOpenGLContext;
     m_context->setFormat(format);
     m_context->create();
+	Q_ASSERT(m_context->isValid());
 
     m_offscreenSurface = new QOffscreenSurface;
     // Pass m_context->format(), not format. Format does not specify and color buffer
@@ -113,6 +114,7 @@ WindowSingleThreaded::WindowSingleThreaded()
     // compatible with the context's configuration.
     m_offscreenSurface->setFormat(m_context->format());
     m_offscreenSurface->create();
+	Q_ASSERT(m_offscreenSurface->isValid());
 
     m_cubeRenderer = new CubeRenderer(m_offscreenSurface);
 

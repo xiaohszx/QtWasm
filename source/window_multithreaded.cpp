@@ -250,7 +250,7 @@ WindowMultiThreaded::WindowMultiThreaded()
     m_context = new QOpenGLContext;
     m_context->setFormat(format);
     m_context->create();
-
+	Q_ASSERT(m_context->isValid());
     m_offscreenSurface = new QOffscreenSurface;
     // Pass m_context->format(), not format. Format does not specify and color buffer
     // sizes, while the context, that has just been created, reports a format that has
@@ -258,6 +258,7 @@ WindowMultiThreaded::WindowMultiThreaded()
     // compatible with the context's configuration.
     m_offscreenSurface->setFormat(m_context->format());
     m_offscreenSurface->create();
+	Q_ASSERT(m_offscreenSurface->isValid());
 
     m_renderControl = new RenderControl(this);
 
