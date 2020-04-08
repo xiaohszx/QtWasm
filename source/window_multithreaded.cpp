@@ -256,7 +256,7 @@ WindowMultiThreaded::WindowMultiThreaded()
     // sizes, while the context, that has just been created, reports a format that has
     // these values filled in. Pass this to the offscreen surface to make sure it will be
     // compatible with the context's configuration.
-    m_offscreenSurface->setFormat(m_context->format());
+	m_offscreenSurface->setScreen(m_context->screen());
     m_offscreenSurface->create();
 	Q_ASSERT(m_offscreenSurface->isValid());
 
