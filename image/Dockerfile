@@ -22,7 +22,7 @@ RUN ./init-repository
 # Build Qt for WASM
 RUN mkdir -p /development/qt5_build
 WORKDIR /development/qt5_build
-RUN /development/qt5/configure -xplatform wasm-emscripten -static -nomake examples -nomake tests -opensource --confirm-license
+RUN /development/qt5/configure -debug -xplatform wasm-emscripten -static -nomake examples -nomake tests -opensource --confirm-license
 RUN make -j `grep -c '^processor' /proc/cpuinfo`
 RUN make install
 
@@ -64,4 +64,4 @@ RUN mkdir -p /project/dependencies/include && mkdir -p /project/dependencies/lib
 WORKDIR /project/build
 
 # Default build command
-CMD cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/emscripten/sdk/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -DCMAKE_PREFIX_PATH=/project/Qt /project/source && make VERBOSE=1
+CMD cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/emscripten/sdk/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" -DCMAKE_PREFIX_PATH=/project/Qt /project/source && make VERBOSE=1
